@@ -7,8 +7,8 @@
 <title>Umbral | Colectivo de artistas tameños</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_back,arrow_forward,chevron_left,chevron_right,close,east,image_inset,language,location_on,mail,pause,person_heart,play_arrow,west&display=block" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_back,arrow_forward,chevron_left,chevron_right,close,east,call,image_inset,language,location_on,mail,map,pause,person_heart,play_arrow,schedule,west&display=block" rel="stylesheet">
 <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
@@ -18,6 +18,7 @@
     <nav class="nav" aria-label="Principal">
       <a href="#/" data-goto="venta">Obras en venta</a>
       <a class="opt" href="#/" data-goto="exhibicion">Exhibición</a>
+      <a class="opt" href="#/" data-goto="lugar">Dónde verlas</a>
       <a href="#/" data-goto="artistas">Artistas</a>
       <a href="#/" data-goto="contacto">Contacto</a>
     </nav>
@@ -44,7 +45,7 @@
    ============================================================ */
 const ARTISTAS = [
   {"slug": "stuart", "nombre": "Stuart", "completo": "Bryang Stuart Torres Castro", "llamado": "Stuart", "disciplina": "Dibujo, pintura e ilustración", "foto": "", "whatsapp": "", "waLink": "https://wa.me/message/67ASAMHGNJ6KE1", "instagram": "https://www.instagram.com/bellearti_ac/", "tiktok": "https://www.tiktok.com/@bellearti_ac", "facebook": "", "bio": ["Mi nombre es Bryang Stuart Torres Castro, conocido artísticamente como Stuart. Soy un artista de Tame, Arauca, Colombia, cuya relación con el arte comenzó a tomar un rumbo más definido en 2014, cuando ingresé a mi primer semestre universitario. Aunque desde antes sentía afinidad por el dibujo, mi acercamiento inicial era intuitivo y espontáneo, sin una formación artística estructurada. Soy tecnólogo en Comunicación Gráfica, graduado en 2019 en la UNIMINUTO, actualmente estudiante de Artes Visuales en la Universidad Nacional Abierta y a Distancia (UNAD) y con un diplomado en Transformación Metodológica y Pedagógica con Enfoque Cognitivo Conductual para las Escuelas de Formación Artística y Cultural, obtenido en 2024. Mi práctica se concentra principalmente en el dibujo, la pintura y la ilustración, con especial interés por el realismo y la representación minuciosa de los detalles.", "A través de mis obras exploro principalmente el retrato, los animales y los paisajes. Encuentro inspiración en mis experiencias personales, en aquellos objetos o momentos (fotos) que poseen un significado especial para mí, y en el deseo de reconocer y expresar el valor de las personas que forman parte de mi vida. Para mí, crear es una forma de expresar lo que soy y de comunicar aquello que, en ocasiones, las palabras no consiguen transmitir. Cada obra representa una inversión de tiempo, compromiso y dedicación, pero, sobre todo, una manera de manifestar el amor que siento por lo que hago. Cuando una obra está destinada a alguien especial, también se convierte en una forma personal de reconocer su importancia, expresar mis sentimientos y transformar esa conexión en una imagen que permanezca en el tiempo.", "Entre 2022 y 2026 me desempeñé como instructor de artes plásticas para la Oficina de Cultura del municipio de Tame, como Formador Artístico en Audiovisuales para el MIN de Culturas, las Artes y los Saberes y como Mediador de Educación Artística de la Corporación Educativa Aprender, experiencia durante la cual desarrollé retratos, murales y exposiciones comunitarias orientadas a compartir los procesos artísticos realizados a lo largo de cada año. Esta labor ha formado parte de mi recorrido, permitiéndome vincular la creación con los espacios culturales y con el acercamiento de otras personas a las artes plásticas.", "Hoy, bajo el nombre artístico Stuart, continúo construyendo mi camino creativo desde la exploración técnica, la observación y la búsqueda constante de una expresión propia. Concibo el arte como una práctica que exige paciencia, sensibilidad y compromiso; una forma de convertir experiencias, recuerdos y afectos en imágenes capaces de comunicar algo más profundo que su apariencia. Mi propósito es que cada obra refleje no solo lo que soy capaz de representar, sino también el valor que encuentro en aquello que decido ilustrar."]},
-  {"slug": "dagatattoo", "nombre": "Dagatattoo", "llamado": "", "disciplina": "Tatuaje", "foto": "", "whatsapp": "", "instagram": "", "facebook": "", "bio": ["Aquí va la biografía de Dagatattoo: su trayectoria, su técnica y lo que busca con su obra.", "Este texto se reemplaza con la información que envíe cada artista."]},
+  {"slug": "dagatattoo", "nombre": "Dagatattoo", "completo": "Daniel García", "llamado": "", "disciplina": "Tatuaje", "foto": "", "whatsapp": "", "instagram": "", "facebook": "", "bio": ["Aquí va la biografía de Dagatattoo: su trayectoria, su técnica y lo que busca con su obra.", "Este texto se reemplaza con la información que envíe cada artista."]},
   {"slug": "luisa-rangel", "nombre": "Luisa Rangel", "llamado": "", "disciplina": "Artista visual", "foto": "", "whatsapp": "", "instagram": "", "facebook": "", "bio": ["Aquí va la biografía de Luisa Rangel: su trayectoria, su técnica y lo que busca con su obra.", "Este texto se reemplaza con la información que envíe cada artista."]},
   {"slug": "charly", "nombre": "Charly", "llamado": "", "disciplina": "Artista visual", "foto": "", "whatsapp": "573154388306", "instagram": "", "facebook": "", "bio": ["Aquí va la biografía de Charly: su trayectoria, su técnica y lo que busca con su obra.", "Este texto se reemplaza con la información que envíe cada artista."]},
   {"slug": "scm", "nombre": "Scm", "llamado": "", "disciplina": "Artista visual", "foto": "", "whatsapp": "573106666693", "instagram": "", "facebook": "", "bio": ["Aquí va la biografía de Scm: su trayectoria, su técnica y lo que busca con su obra.", "Este texto se reemplaza con la información que envíe cada artista."]},
@@ -53,6 +54,19 @@ const ARTISTAS = [
 ];
 
 /* venta: true = aparece en “Obras en venta”; false = “Obras en exhibición” */
+/* Lugar físico donde se pueden ver algunas obras.
+   Para mostrar fotos del lugar, agrega sus rutas en "fotos" (por ejemplo "img/sumaq-1.jpg"). */
+const LUGAR = {
+  nombre: "SUMAQ",
+  tipo: "Café",
+  direccion: "Calle 15 # 16-55",
+  ciudad: "Tame, Arauca",
+  horario: [["Lunes a sábado", "8:00 a. m. a 12:00 m. y 2:00 p. m. a 7:30 p. m."], ["Domingo", "Cerrado"]],
+  telefono: "+57 312 487 8782",
+  mapa: "https://www.google.com/maps/search/?api=1&query=SUMAQ%20Tame%20Arauca&query_place_id=ChIJg432fADHbo4Rioe9I3rIMLk",
+  fotos: []
+};
+
 /* Contacto general de la muestra */
 const CONTACTO = {
   nombre: "Jhann Charles Corredor Jaimes",
@@ -183,6 +197,32 @@ function home(){
     </div>
   </section>
 
+  <section class="block" id="lugar">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Dónde ver las obras</h2>
+        <p>Algunas piezas del colectivo se pueden ver en persona en ${esc(LUGAR.nombre)}, en ${esc(LUGAR.ciudad)}.</p>
+      </div>
+      <div class="lugar-grid">
+        <div class="lugar-fotos">
+          ${(LUGAR.fotos.length ? LUGAR.fotos : [null, null, null]).map((f, k) => f
+            ? `<img src="${esc(f)}" alt="${esc(LUGAR.nombre)}, foto ${k + 1}" loading="lazy">`
+            : `<span class="ph-obra" style="--c:${["var(--cian)","var(--naranja)","var(--magenta)"][k]};--i:var(--marfil);--r:${k ? 1 : 4 / 3}" role="img" aria-label="Espacio para una foto de ${esc(LUGAR.nombre)}"><span class="ms" aria-hidden="true">image_inset</span></span>`).join("")}
+        </div>
+        <div class="lugar-info">
+          <p class="lugar-tipo">${esc(LUGAR.tipo)}</p>
+          <h3>${esc(LUGAR.nombre)}</h3>
+          <ul class="c-list">
+            <li><span class="c-item"><span class="c-ico"><span class="ms" aria-hidden="true">location_on</span></span><span><small>Dirección</small>${esc(LUGAR.direccion)}, ${esc(LUGAR.ciudad)}</span></span></li>
+            <li><span class="c-item"><span class="c-ico"><span class="ms" aria-hidden="true">schedule</span></span><span><small>Horario</small>${LUGAR.horario.map(h => `${esc(h[0])}: ${esc(h[1])}`).join("<br>")}</span></span></li>
+            <li><a href="tel:${LUGAR.telefono.replace(/\s/g, "")}"><span class="c-ico"><span class="ms" aria-hidden="true">call</span></span><span><small>Teléfono</small>${esc(LUGAR.telefono)}</span></a></li>
+          </ul>
+          <a class="btn solid lugar-btn" href="${LUGAR.mapa}" target="_blank" rel="noopener"><span class="ms" aria-hidden="true">map</span>Cómo llegar</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="block" id="artistas">
     <div class="wrap">
       <div class="sec-head">
@@ -262,10 +302,10 @@ function artistPage(a){
         <div class="bio"><p>${esc(a.bio[0])}</p>${a.bio.length > 1 ? `<div class="bio-rest" id="bio-rest" hidden>${a.bio.slice(1).map(p => `<p>${esc(p)}</p>`).join("")}</div><button class="more" type="button" aria-expanded="false" aria-controls="bio-rest">Leer biografía completa</button>` : ""}</div>
         <div class="contact">
           ${hasWa(a) ? `<a class="btn solid" href="${waUrl(a, msg)}" target="_blank" rel="noopener">${ICON.wa}Escribir por WhatsApp</a>` : ""}
-          ${a.instagram ? `<a class="btn" href="${esc(a.instagram)}" target="_blank" rel="noopener">${ICON.ig}Instagram</a>` : ""}
-          ${a.tiktok ? `<a class="btn" href="${esc(a.tiktok)}" target="_blank" rel="noopener">${ICON.tt}TikTok</a>` : ""}
-          ${a.web ? `<a class="btn" href="${esc(a.web)}" target="_blank" rel="noopener"><span class="ms" aria-hidden="true">language</span>Portafolio</a>` : ""}
-          ${a.facebook ? `<a class="btn" href="${esc(a.facebook)}" target="_blank" rel="noopener">${ICON.fb}Facebook</a>` : ""}
+          ${a.instagram ? `<a class="btn red" href="${esc(a.instagram)}" target="_blank" rel="noopener" aria-label="Instagram de ${esc(a.nombre)}" title="Instagram">${ICON.ig}</a>` : ""}
+          ${a.tiktok ? `<a class="btn red" href="${esc(a.tiktok)}" target="_blank" rel="noopener" aria-label="TikTok de ${esc(a.nombre)}" title="TikTok">${ICON.tt}</a>` : ""}
+          ${a.web ? `<a class="btn red" href="${esc(a.web)}" target="_blank" rel="noopener" aria-label="Portafolio de ${esc(a.nombre)}" title="Portafolio"><span class="ms" aria-hidden="true">language</span></a>` : ""}
+          ${a.facebook ? `<a class="btn red" href="${esc(a.facebook)}" target="_blank" rel="noopener" aria-label="Facebook de ${esc(a.nombre)}" title="Facebook">${ICON.fb}</a>` : ""}
         </div>
       </div>
     </article>
