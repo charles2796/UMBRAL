@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Umbral | Colectivo de artistas tameños</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_back,arrow_forward,chevron_left,chevron_right,close,east,image_inset,language,location_on,mail,pause,person_heart,play_arrow,west&display=block" rel="stylesheet">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#/">Umbral</a>
+    <nav class="nav" aria-label="Principal">
+      <a href="#/" data-goto="venta">Obras en venta</a>
+      <a class="opt" href="#/" data-goto="exhibicion">Exhibición</a>
+      <a href="#/" data-goto="artistas">Artistas</a>
+      <a href="#/" data-goto="contacto">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<footer>
+  <div class="wrap">
+    <div><b>Umbral</b><br>Colectivo de artistas tameños.<br>Tame, Arauca, Colombia.</div>
+    <div>Para adquirir una obra, escríbele directamente a cada artista.<br><a href="#/" data-goto="contacto">Contacto de la muestra</a></div>
+  </div>
+</footer>
+
+<dialog id="ficha" aria-labelledby="ficha-t"></dialog>
+
+<script>
+/* ============================================================
+   Contenido editable
+   Para usar fotos reales, escribe la ruta o el enlace en "foto"
+   (artistas) o en "img" (obras). Si están vacíos, se dibuja
+   una imagen de muestra.
+   ============================================================ */
+const ARTISTAS = [
+  {"slug": "stuart", "nombre": "Stuart", "completo": "Bryang Stuart Torres Castro", "llamado": "Stuart", "disciplina": "Dibujo, pintura e ilustración", "foto": "", "whatsapp": "", "waLink": "https://wa.me/message/67ASAMHGNJ6KE1", "instagram": "https://www.instagram.com/bellearti_ac/", "tiktok": "https://www.tiktok.com/@bellearti_ac", "facebook": "", "bio": ["Mi nombre es Bryang Stuart Torres Castro, conocido artísticamente como Stuart. Soy un artista de Tame, Arauca, Colombia, cuya relación con el arte comenzó a tomar un rumbo más definido en 2014, cuando ingresé a mi primer semestre universitario. Aunque desde antes sentía afinidad por el dibujo, mi acercamiento inicial era intuitivo y espontáneo, sin una formación artística estructurada. Soy tecnólogo en Comunicación Gráfica, graduado en 2019 en la UNIMINUTO, actualmente estudiante de Artes Visuales en la Universidad Nacional Abierta y a Distancia (UNAD) y con un diplomado en Transformación Metodológica y Pedagógica con Enfoque Cognitivo Conductual para las Escuelas de Formación Artística y Cultural, obtenido en 2024. Mi práctica se concentra principalmente en el dibujo, la pintura y la ilustración, con especial interés por el realismo y la representación minuciosa de los detalles.", "A través de mis obras exploro principalmente el retrato, los animales y los paisajes. Encuentro inspiración en mis experiencias personales, en aquellos objetos o momentos (fotos) que poseen un significado especial para mí, y en el deseo de reconocer y expresar el valor de las personas que forman parte de mi vida. Para mí, crear es una forma de expresar lo que soy y de comunicar aquello que, en ocasiones, las palabras no consiguen transmitir. Cada obra representa una inversión de tiempo, compromiso y dedicación, pero, sobre todo, una manera de manifestar el amor que siento por lo que hago. Cuando una obra está destinada a alguien especial, también se convierte en una forma personal de reconocer su importancia, expresar mis sentimientos y transformar esa conexión en una imagen que permanezca en el tiempo.", "Entre 2022 y 2026 me desempeñé como instructor de artes plásticas para la Oficina de Cultura del municipio de Tame, como Formador Artístico en Audiovisuales para el MIN de Culturas, las Artes y los Saberes y como Mediador de Educación Artística de la Corporación Educativa Aprender, experiencia durante la cual desarrollé retratos, murales y exposiciones comunitarias orientadas a compartir los procesos artísticos realizados a lo largo de cada año. Esta labor ha formado parte de mi recorrido, permitiéndome vincular la creación con los espacios culturales y con el acercamiento de otras personas a las artes plásticas.", "Hoy, bajo el nombre artístico Stuart, continúo construyendo mi camino creativo desde la exploración técnica, la observación y la búsqueda constante de una expresión propia. Concibo el arte como una práctica que exige paciencia, sensibilidad y compromiso; una forma de convertir experiencias, recuerdos y afectos en imágenes capaces de comunicar algo más profundo que su apariencia. Mi propósito es que cada obra refleje no solo lo que soy capaz de representar, sino también el valor que encuentro en aquello que decido ilustrar."]},
+  {"slug": "dagatattoo", "nombre": "Dagatattoo", "llamado": "", "disciplina": "Tatuaje", "foto": "", "whatsapp": "", "instagram": "", "facebook": "", "bio": ["Aquí va la biografía de Dagatattoo: su trayectoria, su técnica y lo que busca con su obra.", "Este texto se reemplaza con la información que envíe cada artista."]},
+  {"slug": "luisa-rangel", "nombre": "Luisa Rangel", "llamado": "", "disciplina": "Artista visual", "foto": "", "whatsapp": "", "instagram": "", "facebook": "", "bio": ["Aquí va la biografía de Luisa Rangel: su trayectoria, su técnica y lo que busca con su obra.", "Este texto se reemplaza con la información que envíe cada artista."]},
+  {"slug": "charly", "nombre": "Charly", "llamado": "", "disciplina": "Artista visual", "foto": "", "whatsapp": "573154388306", "instagram": "", "facebook": "", "bio": ["Aquí va la biografía de Charly: su trayectoria, su técnica y lo que busca con su obra.", "Este texto se reemplaza con la información que envíe cada artista."]},
+  {"slug": "scm", "nombre": "Scm", "llamado": "", "disciplina": "Artista visual", "foto": "", "whatsapp": "573106666693", "instagram": "", "facebook": "", "bio": ["Aquí va la biografía de Scm: su trayectoria, su técnica y lo que busca con su obra.", "Este texto se reemplaza con la información que envíe cada artista."]},
+  {"slug": "xhomjox", "nombre": "Xhomjox", "llamado": "", "disciplina": "Artista visual", "foto": "", "whatsapp": "573216765283", "instagram": "", "facebook": "", "bio": ["Aquí va la biografía de Xhomjox: su trayectoria, su técnica y lo que busca con su obra.", "Este texto se reemplaza con la información que envíe cada artista."]},
+  {"slug": "jhann-charles-corredor-jaimes", "nombre": "Charles", "completo": "Jhann Charles Corredor Jaimes", "llamado": "Charles", "disciplina": "Ilustración, animación y medios audiovisuales", "foto": "", "whatsapp": "573174510489", "waLink": "https://wa.me/qr/DD64USS7RJG4G1", "instagram": "https://www.instagram.com/charlescreativo/", "tiktok": "https://www.tiktok.com/@charles_co27", "web": "https://charles2796.github.io/charles-creativo/index.html", "facebook": "", "bio": ["Mi nombre es Jhann Charles Corredor Jaimes, conocido como Charles. Soy comunicador gráfico y trabajador social de Tame, Arauca. Me formé como tecnólogo en Comunicación Gráfica en UNIMINUTO (2018) y como trabajador social en la Universidad Nacional de Colombia (2025), y hoy estudio Animación Digital en el Sena. Esa doble formación define mi manera de crear: cada imagen parte de una pregunta por las personas y por los territorios que habitan.", "Mi práctica se mueve entre la ilustración, la fotografía, la animación y el video. Me interesan la memoria, las historias cotidianas y la mirada de quienes viven en la Orinoquía. Busco que el diseño y lo audiovisual sean herramientas para contar, recordar y abrir conversaciones, más que piezas para decorar.", "Tengo más de ocho años de experiencia en identidad visual, diseño editorial, producción audiovisual, motion graphics y diseño de experiencia de usuario. He trabajado con instituciones y procesos comunitarios como el ICBF, Fe y Alegría Colombia, la Universidad Nacional de Colombia Sede Orinoquía, la Institución Educativa San Luis y la Fundación Educar Orinoquia. Actualmente soy artista formador en medios audiovisuales en el programa Artes para la Paz, donde acompaño procesos de creación con la comunidad.", "En Umbral comparto obras que reúnen estos caminos: la observación del territorio, el oficio gráfico y la convicción de que la imagen también puede ser un lugar de encuentro. Mi propósito es seguir explorando el diseño con enfoque social y llevar la creación visual a los lugares donde más se necesita que las historias sean escuchadas."]}
+];
+
+/* venta: true = aparece en “Obras en venta”; false = “Obras en exhibición” */
+/* Contacto general de la muestra */
+const CONTACTO = {
+  nombre: "Jhann Charles Corredor Jaimes",
+  rol: "Organización de la muestra",
+  whatsapp: "573174510489",
+  telefono: "317 451 0489",
+  waLink: "https://wa.me/qr/DD64USS7RJG4G1",
+  correo: "charlescreativo@gmail.com",
+  lugar: "Tame, Arauca, Colombia"
+};
+
+const OBRAS = [
+  { id:"o1",  artista:"stuart",   titulo:"Tarde larga",          tecnica:"Óleo sobre lienzo",        medidas:"100 × 120 cm", anio:2025, ratio:[5,4], venta:true,  precio:2800000, img:"", desc:"Dos franjas de color que se tocan sin mezclarse." },
+  { id:"o2",  artista:"stuart",   titulo:"Calor de marzo",       tecnica:"Óleo sobre lienzo",        medidas:"80 × 100 cm",  anio:2024, ratio:[4,5], venta:false, img:"", desc:"Primera obra de la serie sobre la temporada seca." },
+  { id:"o3",  artista:"stuart",   titulo:"Después de la lluvia", tecnica:"Acrílico sobre tela",      medidas:"70 × 70 cm",   anio:2025, ratio:[1,1], venta:false, img:"", desc:"" },
+  { id:"o4",  artista:"luisa-rangel",  titulo:"Orilla",               tecnica:"Impresión giclée",         medidas:"60 × 90 cm",   anio:2025, ratio:[3,2], venta:true,  precio:1200000, img:"", desc:"Edición de 10 copias firmadas." },
+  { id:"o5",  artista:"luisa-rangel",  titulo:"Seis de la mañana",    tecnica:"Impresión giclée",         medidas:"50 × 50 cm",   anio:2024, ratio:[1,1], venta:false, img:"", desc:"" },
+  { id:"o6",  artista:"luisa-rangel",  titulo:"El remero",            tecnica:"Fotografía análoga",       medidas:"40 × 60 cm",   anio:2023, ratio:[2,3], venta:false, img:"", desc:"" },
+  { id:"o7",  artista:"dagatattoo", titulo:"Corriente",            tecnica:"Xilografía, 3/12",         medidas:"35 × 50 cm",   anio:2025, ratio:[7,10], venta:true, precio:650000, img:"", desc:"Impresa a mano sobre papel japonés." },
+  { id:"o8",  artista:"dagatattoo", titulo:"Huella",               tecnica:"Linóleo, 1/8",             medidas:"30 × 30 cm",   anio:2024, ratio:[1,1], venta:true,  precio:480000, img:"", desc:"" },
+  { id:"o9",  artista:"dagatattoo", titulo:"Viento norte",         tecnica:"Xilografía",               medidas:"50 × 70 cm",   anio:2023, ratio:[5,7], venta:false, img:"", desc:"" },
+  { id:"o10", artista:"charly",titulo:"Equilibrio I",         tecnica:"Madera recuperada",        medidas:"45 × 20 × 20 cm", anio:2025, ratio:[3,4], venta:true, precio:1900000, img:"", desc:"Pieza única." },
+  { id:"o11", artista:"charly",titulo:"Piedra que espera",    tecnica:"Piedra de río tallada",    medidas:"30 × 25 × 18 cm", anio:2024, ratio:[4,5], venta:false, img:"", desc:"" },
+  { id:"o12", artista:"charly",titulo:"Torre",                tecnica:"Madera y hierro",          medidas:"90 × 25 × 25 cm", anio:2025, ratio:[2,3], venta:false, img:"", desc:"" },
+  { id:"o13", artista:"scm",titulo:"Herencia",             tecnica:"Tejido en telar, algodón", medidas:"120 × 80 cm",  anio:2025, ratio:[2,3], venta:true,  precio:2100000, img:"", desc:"Teñido con achiote e índigo." },
+  { id:"o14", artista:"scm",titulo:"Camino de agua",       tecnica:"Tejido en telar, fique",   medidas:"60 × 60 cm",   anio:2024, ratio:[1,1], venta:false, img:"", desc:"" },
+  { id:"o15", artista:"scm",titulo:"Abuela",               tecnica:"Tejido mixto",             medidas:"90 × 70 cm",   anio:2023, ratio:[4,5], venta:false, img:"", desc:"" },
+  { id:"o16", artista:"xhomjox",titulo:"Garza",               tecnica:"Gouache sobre papel",      medidas:"30 × 40 cm",   anio:2025, ratio:[3,4], venta:true,  precio:550000, img:"", desc:"Original, enmarcado." },
+  { id:"o17", artista:"xhomjox",titulo:"Chigüiros",           tecnica:"Gouache sobre papel",      medidas:"40 × 30 cm",   anio:2025, ratio:[4,3], venta:false, img:"", desc:"" },
+  { id:"o18", artista:"xhomjox",titulo:"Flor de mayo",        tecnica:"Gouache sobre papel",      medidas:"30 × 30 cm",   anio:2024, ratio:[1,1], venta:false, img:"", desc:"" },
+  { id:"o19", artista:"jhann-charles-corredor-jaimes",  titulo:"Vasija de fuego",      tecnica:"Cerámica, horno de leña",  medidas:"35 × 22 cm",   anio:2025, ratio:[4,5], venta:true,  precio:720000, img:"", desc:"Pieza única." },
+  { id:"o20", artista:"jhann-charles-corredor-jaimes",  titulo:"Cuenco",               tecnica:"Cerámica esmaltada",       medidas:"12 × 25 cm",   anio:2024, ratio:[1,1], venta:false, img:"", desc:"" },
+  { id:"o21", artista:"jhann-charles-corredor-jaimes",  titulo:"Par",                  tecnica:"Cerámica, horno de leña",  medidas:"40 × 18 cm",   anio:2025, ratio:[3,4], venta:false, img:"", desc:"" }
+];
+/* ============================================================ */
+
+const $ = (s, r=document) => r.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const byArtist = slug => ARTISTAS.find(a => a.slug === slug);
+const peso = n => "$ " + Number(n).toLocaleString("es-CO");
+const firstName = n => { const a = ARTISTAS.find(x => x.nombre === n); return (a && a.llamado) || n.split(" ")[0]; };
+const wa = (num, msg) => `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
+/* Si el artista tiene su propio enlace de WhatsApp se usa ese; si no, su número con un mensaje listo */
+const hasWa = a => !!(a && (a.waLink || a.whatsapp));
+const waUrl = (a, msg) => a.waLink || wa(a.whatsapp, msg);
+
+const ICON = {
+  wa:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3a.5.5 0 0 0 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.5-.3Z"/></svg>',
+  ig:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/></svg>',
+  tt:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48Z"/></svg>',
+  fb:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.3-1.5 1.6-1.5h1.7V4.4a22 22 0 0 0-2.5-.1c-2.5 0-4.2 1.5-4.2 4.3v2.3H7.4V14h2.7v8h3.4Z"/></svg>'
+};
+
+/* ---------- Espacios para imágenes (se reemplazan con fotos reales) ---------- */
+const TONOS = [["var(--cian)","var(--marfil)"],["var(--naranja)","var(--marfil)"],["var(--amarillo)","var(--ink)"],["var(--morado)","var(--marfil)"],["var(--magenta)","var(--marfil)"]];
+const tonoDe = a => TONOS[ARTISTAS.indexOf(a) % TONOS.length];
+function piezaVacia(a, label, ratio, solido){
+  const [c, i] = tonoDe(a);
+  return `<span class="ph-obra${solido ? " solido" : ""}" style="--c:${c};--i:${i};--r:${ratio}" role="img" aria-label="${esc(label)}"><span class="ms" aria-hidden="true">image_inset</span></span>`;
+}
+
+function portrait(a){
+  if (a.foto) return `<img src="${esc(a.foto)}" alt="Retrato de ${esc(a.nombre)}">`;
+  const [c, i] = tonoDe(a);
+  return `<span class="ph-icon" style="--c:${c};--i:${i}" role="img" aria-label="Espacio para la foto de ${esc(a.nombre)}"><span class="ms" aria-hidden="true">person_heart</span></span>`;
+}
+function workImg(o, cover){
+  const a = byArtist(o.artista);
+  return o.img ? `<img src="${esc(o.img)}" alt="${esc(o.titulo)}, de ${esc(a.nombre)}" loading="lazy">` : piezaVacia(a, `Espacio para la imagen de ${o.titulo}`, o.ratio[0] / o.ratio[1], cover);
+}
+
+/* ---------- Componentes ---------- */
+function workCard(o, showArtist = true){
+  const a = byArtist(o.artista);
+  return `<button class="work" type="button" data-obra="${o.id}" aria-label="Ver ficha de ${esc(o.titulo)}">
+    <div class="frame">${workImg(o)}</div>
+    <div class="label">
+      <span class="t">${esc(o.titulo)}</span>
+      ${showArtist ? `<span class="a">${esc(a.nombre)}</span>` : ""}
+      <span class="m">${esc(o.tecnica)}, ${o.anio}</span>
+      ${o.venta ? `<span class="p"><span class="estado si">Disponible</span>${peso(o.precio)}</span>` : `<span class="p no"><span class="estado no">No disponible</span></span>`}
+    </div>
+  </button>`;
+}
+
+function home(){
+  const venta = OBRAS.filter(o => o.venta), expo = OBRAS.filter(o => !o.venta);
+  return `
+  ${featureHTML(venta)}
+
+  <div class="wrap">
+    <section class="hero">
+      <div class="hero-head">
+        <h1>Umbral</h1>
+        <div>
+          <p class="kicker">Colectivo de artistas tameños</p>
+          <p class="lead">Umbral reúne a artistas de Tame, Arauca, que crean desde el dibujo, la pintura, la ilustración, el tatuaje y los medios audiovisuales.</p>
+          <p>Somos un colectivo que nace del territorio para compartir su mirada, sus historias y su oficio. Recorre las obras, conoce a cada artista y adquiere una pieza original directamente con quien la creó.</p>
+          <div class="actions">
+            <a class="btn solid" href="#/" data-goto="venta">Ver obras en venta</a>
+            <a class="btn" href="#/" data-goto="artistas">Conocer a los artistas</a>
+          </div>
+        </div>
+      </div>
+      <nav class="strip" aria-label="Artistas">
+        ${ARTISTAS.map((a,i) => `<a class="panel" href="#/artista/${a.slug}">${piezaVacia(a, `Obras de ${a.nombre}`, 1 / 3, true)}<span>${esc(a.nombre)}<small>${esc(a.disciplina)}</small></span></a>`).join("")}
+      </nav>
+    </section>
+  </div>
+
+  <section class="block" id="venta">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Obras en venta</h2>
+        <p>${venta.length} obras disponibles. Toca una obra para ver su ficha y escribirle al artista por WhatsApp.</p>
+      </div>
+      <div class="wall">${venta.map(o => workCard(o)).join("")}</div>
+    </div>
+  </section>
+
+  <section class="block" id="exhibicion">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Obras en exhibición</h2>
+        <p>Piezas que hacen parte de la muestra y no están a la venta.</p>
+      </div>
+      <div class="wall">${expo.map(o => workCard(o)).join("")}</div>
+    </div>
+  </section>
+
+  <section class="block" id="artistas">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Artistas</h2>
+        <p>Entra al perfil de cada artista para leer su biografía, ver todas sus obras y contactarle.</p>
+      </div>
+      <ul class="roster">
+        ${ARTISTAS.map(a => { const n = OBRAS.filter(o => o.artista === a.slug).length;
+          return `<li><a href="#/artista/${a.slug}"><span class="ph">${portrait(a)}</span><span><span class="n">${esc(a.nombre)}</span>${a.completo ? `<span class="full">${esc(a.completo)}</span>` : ""}<span class="d">${esc(a.disciplina)}</span></span><span class="c">${n} ${n === 1 ? "obra" : "obras"}</span></a></li>`; }).join("")}
+      </ul>
+    </div>
+  </section>
+
+  <section class="block" id="contacto">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Contacto</h2>
+        <p>¿Quieres adquirir una obra, visitar la muestra o llevar Umbral a tu espacio? Escríbenos y te respondemos pronto.</p>
+      </div>
+      <div class="contact-grid">
+        <div>
+          <p class="c-who"><strong>${esc(CONTACTO.nombre)}</strong>${esc(CONTACTO.rol)}</p>
+          <ul class="c-list">
+            <li><a href="${CONTACTO.waLink || wa(CONTACTO.whatsapp, "Hola, me escribo desde la página de Umbral.")}" target="_blank" rel="noopener"><span class="c-ico">${ICON.wa}</span><span><small>WhatsApp</small>${esc(CONTACTO.telefono)}</span></a></li>
+            <li><a href="mailto:${esc(CONTACTO.correo)}?subject=${encodeURIComponent("Contacto desde Umbral")}"><span class="c-ico"><span class="ms" aria-hidden="true">mail</span></span><span><small>Correo</small>${esc(CONTACTO.correo)}</span></a></li>
+            <li><span class="c-item"><span class="c-ico"><span class="ms" aria-hidden="true">location_on</span></span><span><small>Lugar</small>${esc(CONTACTO.lugar)}</span></span></li>
+          </ul>
+        </div>
+        <form class="c-form" id="c-form" novalidate>
+          <h3>Escríbenos</h3>
+          <div class="field"><label for="c-nombre">Tu nombre</label><input id="c-nombre" name="nombre" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="c-motivo">Me interesa</label>
+            <select id="c-motivo" name="motivo">
+              <option>Comprar una obra</option>
+              <option>Visitar la muestra</option>
+              <option>Contactar a un artista</option>
+              <option>Llevar la muestra a mi espacio</option>
+              <option>Otro</option>
+            </select></div>
+          <div class="field"><label for="c-mensaje">Mensaje</label><textarea id="c-mensaje" name="mensaje" rows="5" required></textarea></div>
+          <p class="c-error" id="c-error" role="alert" hidden>Escribe tu nombre y tu mensaje para poder enviarlo.</p>
+          <div class="c-actions">
+            <button class="btn solid" type="submit" value="wa">${ICON.wa}Enviar por WhatsApp</button>
+            <button class="btn" type="submit" value="mail"><span class="ms" aria-hidden="true">mail</span>Enviar por correo</button>
+          </div>
+          <p class="c-note">El mensaje se abre listo en WhatsApp o en tu correo; solo tienes que enviarlo.</p>
+        </form>
+      </div>
+
+      <div class="c-artistas">
+        <h3>Escríbele directamente a cada artista</h3>
+        <ul class="c-art-list">
+          ${ARTISTAS.map(a => `<li class="c-art">
+            <a class="c-art-ph" href="#/artista/${a.slug}" tabindex="-1" aria-hidden="true">${portrait(a)}</a>
+            <div class="c-art-txt"><a class="c-art-n" href="#/artista/${a.slug}">${esc(a.nombre)}</a><span>${esc(a.completo || a.disciplina)}</span></div>
+            ${hasWa(a) ? `<a class="btn solid c-art-wa" href="${waUrl(a, `Hola, ${firstName(a.nombre)}. Te escribo desde la página de Umbral.`)}" target="_blank" rel="noopener" aria-label="Escribirle a ${esc(a.nombre)} por WhatsApp">${ICON.wa}WhatsApp</a>` : `<span class="c-art-pend">WhatsApp pronto</span>`}
+          </li>`).join("")}
+        </ul>
+      </div>
+    </div>
+  </section>`;
+}
+
+function artistPage(a){
+  const i = ARTISTAS.indexOf(a), prev = ARTISTAS[(i - 1 + ARTISTAS.length) % ARTISTAS.length], next = ARTISTAS[(i + 1) % ARTISTAS.length];
+  const obras = OBRAS.filter(o => o.artista === a.slug);
+  const venta = obras.filter(o => o.venta), expo = obras.filter(o => !o.venta);
+  const msg = `Hola, ${firstName(a.nombre)}. Vi tu perfil en Umbral y me gustaría saber más sobre tu obra.`;
+  return `
+  <div class="wrap">
+    <a class="back" href="#/" data-goto="artistas"><span class="ms" aria-hidden="true">arrow_back</span>Volver a todos los artistas</a>
+    <article class="artist">
+      <div class="portrait">${portrait(a)}</div>
+      <div>
+        <p class="disc">${esc(a.disciplina)}</p>
+        <h1>${esc(a.nombre)}</h1>${a.completo ? `<p class="full-name">${esc(a.completo)}</p>` : ""}
+        <div class="bio"><p>${esc(a.bio[0])}</p>${a.bio.length > 1 ? `<div class="bio-rest" id="bio-rest" hidden>${a.bio.slice(1).map(p => `<p>${esc(p)}</p>`).join("")}</div><button class="more" type="button" aria-expanded="false" aria-controls="bio-rest">Leer biografía completa</button>` : ""}</div>
+        <div class="contact">
+          ${hasWa(a) ? `<a class="btn solid" href="${waUrl(a, msg)}" target="_blank" rel="noopener">${ICON.wa}Escribir por WhatsApp</a>` : ""}
+          ${a.instagram ? `<a class="btn" href="${esc(a.instagram)}" target="_blank" rel="noopener">${ICON.ig}Instagram</a>` : ""}
+          ${a.tiktok ? `<a class="btn" href="${esc(a.tiktok)}" target="_blank" rel="noopener">${ICON.tt}TikTok</a>` : ""}
+          ${a.web ? `<a class="btn" href="${esc(a.web)}" target="_blank" rel="noopener"><span class="ms" aria-hidden="true">language</span>Portafolio</a>` : ""}
+          ${a.facebook ? `<a class="btn" href="${esc(a.facebook)}" target="_blank" rel="noopener">${ICON.fb}Facebook</a>` : ""}
+        </div>
+      </div>
+    </article>
+  </div>
+  ${venta.length ? `<section class="block"><div class="wrap"><div class="sec-head"><h2>Obras en venta</h2><p>${venta.length} ${venta.length === 1 ? "obra disponible" : "obras disponibles"}.</p></div><div class="wall">${venta.map(o => workCard(o, false)).join("")}</div></div></section>` : ""}
+  ${expo.length ? `<section class="block"><div class="wrap"><div class="sec-head"><h2>Obras en exhibición</h2></div><div class="wall">${expo.map(o => workCard(o, false)).join("")}</div></div></section>` : ""}
+  <div class="wrap">
+    <nav class="pager" aria-label="Otros artistas">
+      <a href="#/artista/${prev.slug}"><small><span class="ms" aria-hidden="true">west</span>Artista anterior</small><span>${esc(prev.nombre)}</span></a>
+      <a href="#/artista/${next.slug}"><small>Siguiente artista<span class="ms" aria-hidden="true">east</span></small><span>${esc(next.nombre)}</span></a>
+    </nav>
+  </div>
+  ${hasWa(a) ? `<div class="wa-bar"><a class="btn solid" href="${waUrl(a, msg)}" target="_blank" rel="noopener">${ICON.wa}Escribirle a ${esc(firstName(a.nombre))}</a></div>` : ""}`;
+}
+
+/* ---------- Carrusel: cambia de obra cada 5 segundos ---------- */
+const PAUSE = '<span class="ms" aria-hidden="true">pause</span>';
+const PLAY = '<span class="ms" aria-hidden="true">play_arrow</span>';
+function featureHTML(list){
+  if (!list.length) return "";
+  return `<div class="feature" id="feature" role="region" aria-roledescription="carrusel" aria-label="Obras en venta destacadas">
+    <div class="slides">${list.map((o,k) => { const a = byArtist(o.artista);
+      const msg = `Hola, ${firstName(a.nombre)}. Vi tu obra “${o.titulo}” en Umbral y me gustaría recibir más información.`;
+      return `<div class="slide" role="group" aria-roledescription="diapositiva" aria-label="${k+1} de ${list.length}">
+        <button class="bg" type="button" data-obra="${o.id}" aria-label="Ver ficha de ${esc(o.titulo)}">${workImg(o, true)}</button>
+        <div class="shade" aria-hidden="true"></div>
+        <div class="cap">
+          <h3>${esc(o.titulo)}</h3>
+          <p class="meta"><a href="#/artista/${a.slug}">${esc(a.nombre)}</a>, ${esc(o.tecnica)}</p>
+          <div class="row"><span class="estado si">Disponible</span><span class="price">${peso(o.precio)}</span></div>
+          <div class="actions">
+            ${hasWa(a) ? `<a class="btn solid" href="${waUrl(a, msg)}" target="_blank" rel="noopener">${ICON.wa}Consultar por WhatsApp</a>` : ""}
+            <button class="btn" type="button" data-obra="${o.id}">Ver ficha</button>
+          </div>
+        </div>
+      </div>`; }).join("")}</div>
+    <p class="eyebrow" aria-hidden="true">Destacadas</p>
+    <button class="nav prev" type="button" data-act="prev" aria-label="Obra anterior"><span class="ms" aria-hidden="true">chevron_left</span></button>
+    <button class="nav next" type="button" data-act="next" aria-label="Obra siguiente"><span class="ms" aria-hidden="true">chevron_right</span></button>
+    <div class="feature-bar">
+      <div class="dots">${list.map((o,k) => `<button class="dot" type="button" aria-label="Ir a la obra ${k+1}"><i></i></button>`).join("")}</div>
+      <button class="pausa" type="button" data-act="pause" aria-label="Pausar presentación">${PAUSE}</button>
+    </div>
+  </div>`;
+}
+function initFeature(){
+  const f = $("#feature"); if (!f) return;
+  const slides = [...f.querySelectorAll(".slide")], dots = [...f.querySelectorAll(".dot")];
+  let i = 0;
+  const go = n => {
+    i = (n + slides.length) % slides.length;
+    slides.forEach((s,k) => { s.classList.toggle("on", k === i); s.inert = k !== i; s.setAttribute("aria-hidden", k !== i); });
+    dots.forEach((d,k) => { d.classList.toggle("on", k === i); d.classList.toggle("past", k < i);
+      const bar = d.firstElementChild; bar.style.animation = "none"; void bar.offsetWidth; bar.style.animation = ""; });
+  };
+  dots.forEach((d,k) => {
+    d.addEventListener("click", () => go(k));
+    d.firstElementChild.addEventListener("animationend", () => { if (k === i) go(i + 1); });
+  });
+  f.querySelector('[data-act="prev"]').addEventListener("click", () => go(i - 1));
+  f.querySelector('[data-act="next"]').addEventListener("click", () => go(i + 1));
+  const pb = f.querySelector('[data-act="pause"]');
+  pb.addEventListener("click", () => { const p = f.classList.toggle("paused");
+    pb.innerHTML = p ? PLAY : PAUSE; pb.setAttribute("aria-label", p ? "Reanudar presentación" : "Pausar presentación"); });
+  f.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") f.classList.add("hold"); });
+  f.addEventListener("pointerleave", e => { if (e.pointerType === "mouse") f.classList.remove("hold"); });
+  f.addEventListener("focusin", e => { if (e.target.matches(":focus-visible")) f.classList.add("hold"); });
+  /* Deslizar con el dedo para cambiar de obra */
+  const sl = f.querySelector(".slides"); let x0 = null, y0 = 0;
+  sl.addEventListener("touchstart", e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive:true });
+  sl.addEventListener("touchend", e => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.3) go(dx < 0 ? i + 1 : i - 1);
+  }, { passive:true });
+  f.addEventListener("focusout", e => { if (!f.contains(e.relatedTarget)) f.classList.remove("hold"); });
+  go(0);
+}
+document.addEventListener("visibilitychange", () => $("#feature")?.classList.toggle("hold-tab", document.hidden));
+
+/* ---------- Ficha de obra ---------- */
+const dlg = $("#ficha");
+let vList = [], vIdx = 0;
+function openWork(id, list){
+  vList = list && list.length ? list : [id];
+  vIdx = Math.max(0, vList.indexOf(id));
+  drawViewer();
+  if (!dlg.open){ dlg.showModal(); $("#feature")?.classList.add("hold-dlg"); }
+}
+function drawViewer(dir){
+  const o = OBRAS.find(x => x.id === vList[vIdx]); if (!o) return;
+  const a = byArtist(o.artista), many = vList.length > 1;
+  const msg = `Hola, ${firstName(a.nombre)}. Vi tu obra “${o.titulo}” en Umbral y me gustaría recibir más información.`;
+  dlg.innerHTML = `
+  <div class="viewer">
+    <div class="v-top">
+      <p class="eyebrow">${o.venta ? "Obra en venta" : "Obra en exhibición"}</p>
+      ${many ? `<span class="v-count">${vIdx + 1} de ${vList.length}</span>` : ""}
+    </div>
+    <div class="v-art" style="--r:${o.ratio[0] / o.ratio[1]}">${workImg(o)}</div>
+    <div class="v-info">
+      <h3 id="ficha-t">${esc(o.titulo)}</h3>
+      <p class="v-by"><a href="#/artista/${a.slug}" data-close>${esc(a.nombre)}</a></p>
+      <p class="v-meta">${esc(o.tecnica)}, ${esc(o.medidas)}, ${o.anio}</p>
+      <div class="v-row">${o.venta ? `<span class="estado si">Disponible</span><span class="v-price">${peso(o.precio)}</span>` : `<span class="estado no">No disponible</span>`}</div>
+      ${o.desc ? `<p class="v-desc">${esc(o.desc)}</p>` : ""}
+      <div class="actions">
+        ${hasWa(a) ? `<a class="btn solid" href="${waUrl(a, msg)}" target="_blank" rel="noopener">${ICON.wa}${o.venta ? "Consultar por WhatsApp" : "Escribirle al artista"}</a>` : ""}
+        <a class="btn" href="#/artista/${a.slug}" data-close>Ver perfil del artista<span class="ms" aria-hidden="true">arrow_forward</span></a>
+      </div>
+    </div>
+    ${many ? `<button class="v-nav prev" type="button" data-v="-1" aria-label="Obra anterior"><span class="ms" aria-hidden="true">chevron_left</span></button>
+    <button class="v-nav next" type="button" data-v="1" aria-label="Obra siguiente"><span class="ms" aria-hidden="true">chevron_right</span></button>` : ""}
+    <button class="close" type="button" aria-label="Cerrar" data-close><span class="ms" aria-hidden="true">close</span></button>
+  </div>`;
+  dlg.scrollTop = 0;
+  if (dir) dlg.querySelector(`[data-v="${dir}"]`)?.focus();
+}
+function stepViewer(d){ if (vList.length < 2) return; vIdx = (vIdx + d + vList.length) % vList.length; drawViewer(d); }
+dlg.addEventListener("keydown", e => { if (e.key === "ArrowRight") stepViewer(1); if (e.key === "ArrowLeft") stepViewer(-1); });
+let vx = null, vy = 0;
+dlg.addEventListener("touchstart", e => { if (!e.target.closest(".v-art")) return; vx = e.touches[0].clientX; vy = e.touches[0].clientY; }, { passive:true });
+dlg.addEventListener("touchend", e => {
+  if (vx === null) return;
+  const dx = e.changedTouches[0].clientX - vx, dy = e.changedTouches[0].clientY - vy; vx = null;
+  if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.3) stepViewer(dx < 0 ? 1 : -1);
+}, { passive:true });
+dlg.addEventListener("close", () => $("#feature")?.classList.remove("hold-dlg"));
+dlg.addEventListener("click", e => {
+  const nv = e.target.closest("[data-v]"); if (nv){ stepViewer(+nv.dataset.v); return; }
+  if (e.target.closest("[data-close]")) dlg.close();
+});
+
+/* ---------- Navegación ---------- */
+let pending = null;
+function render(){
+  const m = location.hash.match(/^#\/artista\/([\w-]+)/);
+  const a = m && byArtist(m[1]);
+  $("#app").innerHTML = a ? artistPage(a) : home();
+  initFeature();
+  document.body.classList.toggle("has-bar", hasWa(a));
+  document.title = a ? `${a.nombre} | Umbral` : "Umbral | Colectivo de artistas tameños";
+  if (pending && !a){ const t = document.getElementById(pending); pending = null; requestAnimationFrame(() => t && t.scrollIntoView()); }
+  else window.scrollTo(0, 0);
+}
+document.addEventListener("click", e => {
+  const go = e.target.closest("[data-goto]");
+  if (go){
+    e.preventDefault();
+    const target = go.dataset.goto;
+    if (location.hash.startsWith("#/artista/")){ pending = target; location.hash = "#/"; }
+    else document.getElementById(target)?.scrollIntoView();
+    return;
+  }
+  const w = e.target.closest("[data-obra]");
+  if (w){ const box = w.closest(".wall, #feature"); const ids = box ? [...new Set([...box.querySelectorAll("[data-obra]")].map(x => x.dataset.obra))] : [w.dataset.obra]; openWork(w.dataset.obra, ids); }
+});
+/* Biografía: mostrar el texto completo o solo el primer párrafo */
+document.addEventListener("click", e => {
+  const b = e.target.closest(".more"); if (!b) return;
+  const rest = document.getElementById(b.getAttribute("aria-controls"));
+  const open = rest.hidden;
+  rest.hidden = !open;
+  b.setAttribute("aria-expanded", open);
+  b.textContent = open ? "Mostrar menos" : "Leer biografía completa";
+  if (!open) b.closest(".bio").scrollIntoView({ block:"nearest" });
+});
+/* Formulario de contacto: arma el mensaje y lo abre en WhatsApp o en el correo */
+document.addEventListener("submit", e => {
+  const f = e.target.closest("#c-form"); if (!f) return;
+  e.preventDefault();
+  const nombre = f.nombre.value.trim(), motivo = f.motivo.value, mensaje = f.mensaje.value.trim();
+  const err = document.getElementById("c-error");
+  if (!nombre || !mensaje){ err.hidden = false; (nombre ? f.mensaje : f.nombre).focus(); return; }
+  err.hidden = true;
+  const texto = `Hola, soy ${nombre}. Te escribo desde la página de Umbral.\nMotivo: ${motivo}\n\n${mensaje}`;
+  const via = e.submitter ? e.submitter.value : "wa";
+  if (via === "mail") location.href = `mailto:${CONTACTO.correo}?subject=${encodeURIComponent("Umbral: " + motivo)}&body=${encodeURIComponent(texto)}`;
+  else window.open(wa(CONTACTO.whatsapp, texto), "_blank", "noopener");
+});
+window.addEventListener("hashchange", render);
+render();
+</script>
+</body>
+</html>
